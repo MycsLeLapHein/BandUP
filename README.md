@@ -1,6 +1,6 @@
 # BANDUP — entraînement haut du corps aux bandes élastiques
 
-Application web autonome pour débutant : trois programmes de musculation du haut du corps avec les cinq bandes élastiques en boucle du set (jaune, rouge, noire, violette, verte).
+Application web autonome pour débutant : trois programmes de musculation du haut du corps et une bibliothèque de **38 exercices** illustrés, avec les cinq bandes élastiques en boucle du set (jaune, rouge, noire, violette, verte).
 
 ## Ouvrir l’application
 
@@ -28,10 +28,22 @@ Les jours de repos sont **mardi, jeudi et dimanche**.
 
 Le programme de 60 minutes est ambitieux pour un vrai débutant : commence par **2 séances par semaine** (lundi et mercredi) pendant les deux premières semaines, puis ajoute les deux autres si tu récupères bien.
 
+## Bibliothèque d’exercices
+
+Le bouton **Exercices** dans l’en-tête ouvre les **38 mouvements** de l’application :
+
+- filtre par groupe musculaire : **Pectoraux, Dos, Épaules, Bras, Gainage** ;
+- recherche par nom ou muscle ;
+- un GIF animé et une fiche technique pour chaque exercice ;
+- les exercices des programmes et les variantes supplémentaires sont réunis au même endroit.
+
+Les nouveaux mouvements incluent notamment le tirage assis, la traction assistée, le tirage à genoux un bras, le curl au-dessus de la tête, les extensions de poignets et plusieurs variantes de gainage.
+
 ## Fonctionnalités
 
 - **Un GIF animé par exercice**, avec le muscle ciblé et le matériel requis.
 - **Fiche technique** pour chaque mouvement : 3 consignes, erreur à éviter, conseil, bande recommandée.
+- **Bibliothèque filtrable** de 38 exercices avec recherche instantanée.
 - **Minuteur de repos** intégré (20 s, 45 s, 60 s ou 75 s selon l’exercice).
 - **Suivi de progression** : coche les exercices, la progression est sauvegardée dans le navigateur (`localStorage`).
 - **Guide des cinq bandes** : correspondances livres / kilos, choix de la résistance, progression et règles de sécurité.
@@ -52,8 +64,8 @@ Ce contenu est éducatif et ne remplace pas un avis médical.
 ```
 index.html          interface
 styles.css          mise en page responsive
-app.js              programmes, exercices, interactions, minuteur
-assets/gifs/        21 démonstrations animées
+app.js              programmes, bibliothèque, interactions, minuteur
+assets/gifs/        38 démonstrations animées
 README.md
 ```
 

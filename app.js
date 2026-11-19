@@ -410,8 +410,336 @@ const EXERCISES = {
     ],
     mistake: 'Ne tire pas sur ta tête avec les mains.',
     tip: 'Ralentis : la qualité du gainage compte plus que la vitesse.'
+  },
+  'assisted-pullup': {
+    name: 'Traction assistée',
+    gif: 'assets/gifs/assisted-pullup.gif',
+    muscles: ['Dos', 'Biceps'],
+    group: 'Dos',
+    level: 'Intermédiaire',
+    setup: 'Barre de traction + bande',
+    anchor: false,
+    band: 'Noire ou violette',
+    summary: 'La traction avec un coup de pouce de la bande : idéale pour apprendre le mouvement et construire le dos.',
+    cues: [
+      'Fixe la bande à la barre, passe un genou ou un pied dans la boucle, puis saisis la barre.',
+      'Épaules basses, gaine le buste et tire les coudes vers les hanches pour monter le menton au-dessus de la barre.',
+      'Redescends lentement, bras presque tendus, sans te laisser tomber.'
+    ],
+    mistake: 'Ne te balance pas pour monter : la bande doit aider, pas catapulter.',
+    tip: 'Plus la bande est épaisse, plus elle aide. Descends d’un niveau quand tu fais 8 répétitions propres.'
+  },
+  'alternating-vup': {
+    name: 'V-up alterné',
+    gif: 'assets/gifs/alternating-vup.gif',
+    muscles: ['Abdominaux', 'Obliques'],
+    group: 'Gainage',
+    setup: 'Bande sous les pieds',
+    anchor: false,
+    band: 'Rouge',
+    summary: 'Un V-up qui alterne le croisement des jambes pour travailler les obliques sans matériel lourd.',
+    cues: [
+      'Allongé sur le dos, jambes tendues, tiens la bande derrière les cuisses ou sous les pieds.',
+      'Monte jambes et buste ensemble, puis croise les jambes au retour.',
+      'Alterne le croisement à chaque répétition, sans arracher le mouvement.'
+    ],
+    mistake: 'Ne cambre pas le bas du dos en redescendant.',
+    tip: 'Garde les genoux légèrement fléchis si les jambes tendues tirent trop.'
+  },
+  'close-grip-pulldown': {
+    name: 'Tirage vertical prise serrée',
+    gif: 'assets/gifs/close-grip-pulldown.gif',
+    muscles: ['Dos', 'Biceps'],
+    group: 'Dos',
+    setup: 'Ancrage en hauteur',
+    anchor: true,
+    band: 'Rouge ou noire',
+    summary: 'Une prise serrée qui cible le milieu du dos et les biceps, avec un trajet très guidé.',
+    cues: [
+      'Fixe la bande en hauteur, saisis-la avec les paumes vers toi, mains à largeur d’épaules.',
+      'Recule pour tendre la bande, puis tire les coudes vers les côtes en serrant les omoplates.',
+      'Remonte lentement, sans hausser les épaules.'
+    ],
+    mistake: 'Ne tire pas avec les poignets : les coudes mènent le mouvement.',
+    tip: 'Garde le buste presque immobile, juste légèrement penché en arrière.'
+  },
+  'fixed-close-grip-pulldown': {
+    name: 'Tirage assis prise serrée',
+    gif: 'assets/gifs/fixed-close-grip-pulldown.gif',
+    muscles: ['Dos', 'Biceps'],
+    group: 'Dos',
+    setup: 'Assis + ancrage en hauteur',
+    anchor: true,
+    band: 'Rouge ou noire',
+    summary: 'Un tirage assis très stable, parfait pour isoler le dos et contrôler chaque répétition.',
+    cues: [
+      'Assieds-toi face à une ancre haute, pieds à plat, et saisis la bande en prise serrée.',
+      'Dos droit, tire la bande vers la poitrine en descendant les coudes.',
+      'Serre les omoplates une seconde, puis relâche lentement.'
+    ],
+    mistake: 'Ne t’affaisse pas sur le retour : garde le buste grand.',
+    tip: 'Tu peux caler les pieds contre un meuble pour plus de stabilité.'
+  },
+  'fixed-underhand-pulldown': {
+    name: 'Tirage assis prise inversée',
+    gif: 'assets/gifs/fixed-underhand-pulldown.gif',
+    muscles: ['Dos', 'Biceps'],
+    group: 'Dos',
+    setup: 'Ancrage en hauteur',
+    anchor: true,
+    band: 'Rouge ou noire',
+    summary: 'La prise paumes vers toi ajoute du travail aux biceps et au bas des dorsaux.',
+    cues: [
+      'Fixe la bande en hauteur, saisis-la paumes vers toi, mains légèrement plus larges que les épaules.',
+      'Gaine le buste et tire les coudes vers le bas, jusqu’à la poitrine.',
+      'Contrôle la remontée jusqu’à tendre les bras.'
+    ],
+    mistake: 'Ne laisse pas les coudes s’écarter sur les côtés.',
+    tip: 'Si les poignets tirent, reviens à une prise neutre.'
+  },
+  'jack-knife-situp': {
+    name: 'Jack knife',
+    gif: 'assets/gifs/jack-knife-situp.gif',
+    muscles: ['Abdominaux'],
+    group: 'Gainage',
+    setup: 'Bande sous les pieds',
+    anchor: false,
+    band: 'Rouge',
+    summary: 'Un relevé complet jambes + buste qui travaille toute la sangle abdominale.',
+    cues: [
+      'Allongé, jambes tendues, tiens la bande au-dessus de la tête.',
+      'En gainant, lève jambes et buste en même temps, mains vers les pieds.',
+      'Marque une pause en haut, puis redescends lentement.'
+    ],
+    mistake: 'Ne bloque pas la respiration en haut du mouvement.',
+    tip: 'Plie légèrement les genoux si tu ne touches pas tes pieds.'
+  },
+  'kneeling-one-arm-pulldown': {
+    name: 'Tirage à genoux un bras',
+    gif: 'assets/gifs/kneeling-one-arm-pulldown.gif',
+    muscles: ['Dos', 'Biceps'],
+    group: 'Dos',
+    setup: 'Ancrage en hauteur',
+    anchor: true,
+    band: 'Rouge ou noire',
+    summary: 'Un tirage vertical unilatéral qui apprend à sentir le grand dorsal travailler seul.',
+    cues: [
+      'À genoux sous une ancre haute, tiens la bande d’une main, bras tendu au-dessus de la tête.',
+      'Tire le coude vers le flanc, comme pour amener l’omoplate dans la poche arrière.',
+      'Remonte lentement, puis change de côté.'
+    ],
+    mistake: 'Ne tourne pas le buste pour aider le bras.',
+    tip: 'Garde la main libre sur la hanche pour stabiliser le bassin.'
+  },
+  'kneeling-twisting-crunch': {
+    name: 'Crunch twist à genoux',
+    gif: 'assets/gifs/kneeling-twisting-crunch.gif',
+    muscles: ['Abdominaux', 'Obliques'],
+    group: 'Gainage',
+    setup: 'Ancrage à hauteur de taille',
+    anchor: true,
+    band: 'Rouge',
+    summary: 'Un crunch à genoux qui ajoute une rotation contrôlée pour les obliques.',
+    cues: [
+      'À genoux, dos à l’ancre, tiens la bande près de la poitrine, coudes fléchis.',
+      'Gaine les abdos et tourne le buste d’un côté, mains vers la hanche opposée.',
+      'Reviens au centre, puis alterne sans à-coups.'
+    ],
+    mistake: 'Ne tire pas avec les bras : la rotation vient du tronc.',
+    tip: 'Garde les hanches face à l’avant pendant toute la rotation.'
+  },
+  'lying-leg-raise': {
+    name: 'Relevé de jambes',
+    gif: 'assets/gifs/lying-leg-raise.gif',
+    muscles: ['Abdominaux'],
+    group: 'Gainage',
+    setup: 'Bande sous les pieds',
+    anchor: false,
+    band: 'Rouge',
+    summary: 'Un exercice de gainage pour le bas des abdos, avec la bande pour ajouter de la résistance.',
+    cues: [
+      'Allongé sur le dos, passe la bande sous la voûte plantaire et tiens les extrémités.',
+      'Gaine le ventre et monte les jambes tendues jusqu’à la verticale.',
+      'Redescends lentement sans creuser le bas du dos.'
+    ],
+    mistake: 'Ne laisse pas les lombaires se cambrer quand les jambes descendent.',
+    tip: 'Réduis l’amplitude si le bas du dos décolle.'
+  },
+  'overhead-biceps-curl': {
+    name: 'Curl biceps au-dessus de la tête',
+    gif: 'assets/gifs/overhead-biceps-curl.gif',
+    muscles: ['Biceps'],
+    group: 'Bras',
+    setup: 'Debout + bande sous le pied',
+    anchor: false,
+    band: 'Jaune ou rouge',
+    summary: 'Un curl bras en hauteur qui étire le biceps et change du curl classique.',
+    cues: [
+      'Debout, bande sous un pied, tiens l’autre extrémité bras tendu au-dessus de la tête.',
+      'Garde le haut du bras immobile et fléchis le coude pour amener la main vers l’épaule.',
+      'Redescends lentement, puis change de bras.'
+    ],
+    mistake: 'Ne laisse pas le coude partir vers l’arrière.',
+    tip: 'Utilise une bande légère : la position est déjà exigeante.'
+  },
+  'push-situp': {
+    name: 'Sit-up avec bande',
+    gif: 'assets/gifs/push-situp.gif',
+    muscles: ['Abdominaux'],
+    group: 'Gainage',
+    setup: 'Ancrage bas',
+    anchor: true,
+    band: 'Rouge',
+    summary: 'Un sit-up guidé par la bande pour apprendre à enrouler le buste sans élan.',
+    cues: [
+      'Ancre la bande en bas, allonge-toi genoux fléchis et tiens les extrémités devant toi.',
+      'Tends les bras vers le plafond, puis enroule le buste pour décoller les omoplates.',
+      'Redescends lentement, vertèbre après vertèbre.'
+    ],
+    mistake: 'Ne tire pas sur la bande avec les bras pour te relever.',
+    tip: 'Garde les pieds bien à plat et le menton légèrement rentré.'
+  },
+  'reverse-wrist-curl': {
+    name: 'Extension des poignets',
+    gif: 'assets/gifs/reverse-wrist-curl.gif',
+    muscles: ['Avant-bras'],
+    group: 'Bras',
+    setup: 'Assis + bande',
+    anchor: false,
+    band: 'Jaune',
+    summary: 'Le travail inverse de l’avant-bras, utile pour équilibrer la prise et prévenir les tensions.',
+    cues: [
+      'Assis, paumes vers le bas, enroule la bande autour des doigts et pose les avant-bras sur les cuisses.',
+      'Monte les poignets lentement, en gardant les avant-bras immobiles.',
+      'Redescends en contrôle jusqu’à l’étirement.'
+    ],
+    mistake: 'Ne bouge pas les coudes pour gagner de l’amplitude.',
+    tip: 'Mouvement court, charge légère, jamais de douleur au poignet.'
+  },
+  'seated-twist': {
+    name: 'Rotation assise',
+    gif: 'assets/gifs/seated-twist.gif',
+    muscles: ['Abdominaux', 'Obliques'],
+    group: 'Gainage',
+    setup: 'Assis + bande autour de la taille',
+    anchor: false,
+    band: 'Rouge',
+    summary: 'Une rotation lente qui travaille les obliques et la posture, assis au sol.',
+    cues: [
+      'Assis jambes tendues, enroule la bande autour de la taille et tiens les extrémités.',
+      'Gaine le ventre et tourne le buste d’un côté, en gardant le dos droit.',
+      'Reviens au centre, puis alterne de l’autre côté.'
+    ],
+    mistake: 'Ne t’aide pas des bras pour amplifier la rotation.',
+    tip: 'Imagine une vis qui tourne depuis le milieu du dos.'
+  },
+  'standing-twisting-crunch': {
+    name: 'Crunch twist debout',
+    gif: 'assets/gifs/standing-twisting-crunch.gif',
+    muscles: ['Abdominaux', 'Obliques'],
+    group: 'Gainage',
+    setup: 'Debout + bande dans le dos',
+    anchor: false,
+    band: 'Rouge',
+    summary: 'Un crunch debout avec rotation, pratique quand tu n’as pas envie de t’allonger.',
+    cues: [
+      'Debout, bande dans le haut du dos, extrémités devant la poitrine, coudes près du corps.',
+      'Gaine et enroule le buste en tournant le coude vers le genou opposé.',
+      'Reviens au centre, puis alterne sans mouvement des hanches.'
+    ],
+    mistake: 'Ne plie pas au niveau des hanches : le buste s’enroule.',
+    tip: 'Garde les pieds bien ancrés et les genoux légèrement souples.'
+  },
+  'v-up': {
+    name: 'V-up',
+    gif: 'assets/gifs/v-up.gif',
+    muscles: ['Abdominaux'],
+    group: 'Gainage',
+    setup: 'Bande sous les pieds',
+    anchor: false,
+    band: 'Rouge',
+    summary: 'Le grand classique du gainage dynamique : jambes et buste se rejoignent en V.',
+    cues: [
+      'Allongé, jambes tendues, tiens la bande derrière les cuisses.',
+      'Monte en même temps les jambes et le buste, mains vers les pieds.',
+      'Redescends en contrôle sans poser complètement les jambes.'
+    ],
+    mistake: 'Ne tire pas la tête vers l’avant avec les mains.',
+    tip: 'Commence avec les genoux fléchis, puis tends les jambes.'
+  },
+  'vertical-pallof': {
+    name: 'Pallof vertical',
+    gif: 'assets/gifs/vertical-pallof.gif',
+    muscles: ['Gainage', 'Obliques'],
+    group: 'Gainage',
+    setup: 'Ancrage à hauteur de poitrine',
+    anchor: true,
+    band: 'Rouge',
+    summary: 'Un anti-rotation debout, bras à l’horizontale, pour verrouiller le buste.',
+    cues: [
+      'Fixe la bande à hauteur de poitrine, place-toi de côté et tiens-la à deux mains.',
+      'Tends les bras devant toi, à hauteur de poitrine, sans laisser le buste tourner.',
+      'Reviens lentement, puis change de côté.'
+    ],
+    mistake: 'Ne laisse pas la bande te ramener vers l’ancre.',
+    tip: 'Plus tu t’éloignes de l’ancre, plus le gainage est difficile.'
+  },
+  'wrist-curl': {
+    name: 'Flexion des poignets',
+    gif: 'assets/gifs/wrist-curl.gif',
+    muscles: ['Avant-bras'],
+    group: 'Bras',
+    setup: 'Assis + bande',
+    anchor: false,
+    band: 'Jaune',
+    summary: 'Un petit exercice pour renforcer l’avant-bras et la prise, utile pour toutes les tractions.',
+    cues: [
+      'Assis, paumes vers le haut, bande autour des doigts, avant-bras posés sur les cuisses.',
+      'Enroule les poignets vers le haut en gardant les coudes fixes.',
+      'Redescends lentement jusqu’à sentir l’étirement.'
+    ],
+    mistake: 'Ne soulève pas les avant-bras des cuisses.',
+    tip: 'Le mouvement est court : cherche le contrôle, pas la charge.'
   }
 };
+
+const LIBRARY_GROUPS = [
+  { id: 'all', label: 'Tous' },
+  { id: 'Pectoraux', label: 'Pectoraux' },
+  { id: 'Dos', label: 'Dos' },
+  { id: 'Épaules', label: 'Épaules' },
+  { id: 'Bras', label: 'Bras' },
+  { id: 'Gainage', label: 'Gainage' }
+];
+
+const GROUP_BY_MUSCLE = {
+  Pectoraux: 'Pectoraux',
+  Dos: 'Dos',
+  'Haut du dos': 'Dos',
+  Trapèzes: 'Dos',
+  Rhomboïdes: 'Dos',
+  Épaules: 'Épaules',
+  'Épaules (côté)': 'Épaules',
+  'Arrière d’épaule': 'Épaules',
+  Biceps: 'Bras',
+  Triceps: 'Bras',
+  'Avant-bras': 'Bras',
+  Gainage: 'Gainage',
+  Abdominaux: 'Gainage',
+  Obliques: 'Gainage'
+};
+
+function getExerciseGroup(exercise) {
+  return exercise.group || GROUP_BY_MUSCLE[exercise.muscles[0]] || 'Autres';
+}
+
+function getLibraryExercises() {
+  return Object.entries(EXERCISES).map(([id, exercise]) => ({
+    id,
+    ...exercise,
+    group: getExerciseGroup(exercise)
+  }));
+}
 
 /* --------------------------------------------------------------------------
    Échauffements et retours au calme
@@ -914,7 +1242,7 @@ const PLANS = {
    -------------------------------------------------------------------------- */
 
 const STORAGE_KEY = 'bandup-progress-v1';
-const state = { plan: '15', day: 0, done: {} };
+const state = { plan: '15', day: 0, done: {}, view: 'program', libraryFilter: 'all', libraryQuery: '' };
 let currentExerciseMap = new Map();
 let restInterval = null;
 let restTotal = 60;
@@ -931,6 +1259,11 @@ function safeLoadState() {
     if (saved && PLANS[saved.plan]) state.plan = saved.plan;
     if (Number.isInteger(saved.day) && saved.day >= 0 && saved.day < 7) state.day = saved.day;
     if (saved.done && typeof saved.done === 'object') state.done = saved.done;
+    if (saved.view === 'library' || saved.view === 'program') state.view = saved.view;
+    if (saved.libraryFilter && LIBRARY_GROUPS.some((group) => group.id === saved.libraryFilter)) {
+      state.libraryFilter = saved.libraryFilter;
+    }
+    if (typeof saved.libraryQuery === 'string') state.libraryQuery = saved.libraryQuery;
   } catch (_) {
     /* localStorage peut être indisponible en file://, l'app reste utilisable. */
   }
@@ -987,11 +1320,17 @@ function nextTrainingDayFrom(dayIndex) {
 
 function renderTabs() {
   document.querySelectorAll('.plan-tab').forEach((tab) => {
-    const active = tab.dataset.plan === state.plan;
+    const active = state.view === 'program' && tab.dataset.plan === state.plan;
     tab.classList.toggle('is-active', active);
     tab.setAttribute('aria-selected', String(active));
     tab.tabIndex = active ? 0 : -1;
   });
+  const libraryButton = document.getElementById('openLibraryBtn');
+  if (libraryButton) {
+    const active = state.view === 'library';
+    libraryButton.classList.toggle('is-active', active);
+    libraryButton.setAttribute('aria-pressed', String(active));
+  }
 }
 
 function renderHero() {
@@ -1084,7 +1423,7 @@ function renderExerciseCard(exercise, blockIndex, exIndex) {
       <div class="ex-body">
         <div class="ex-tags">
           <span class="muscle-tag">${data.muscles[0]}</span>
-          <span class="level-tag">Débutant</span>
+          <span class="level-tag">${data.level || 'Débutant'}</span>
         </div>
         <h3>${data.name}</h3>
         <p class="ex-meta"><strong>${exercise.dose}</strong><span class="meta-dot">·</span><span>repos ${exercise.rest}</span></p>
@@ -1224,8 +1563,98 @@ function renderDay() {
   else renderSession(day);
 }
 
+function renderLibraryCard(exercise) {
+  const key = `library:${exercise.id}`;
+  return `
+    <article class="exercise-card library-card">
+      <div class="ex-media">
+        <img src="${exercise.gif}" alt="Démonstration animée : ${exercise.name} avec une bande élastique" width="180" height="180">
+        <span class="gif-badge"><span class="gif-dot"></span>GIF</span>
+        <span class="equipment-badge">${exercise.anchor ? `${icon('anchor')} Ancrage` : 'Sans ancrage'}</span>
+      </div>
+      <div class="ex-body">
+        <div class="ex-tags">
+          <span class="muscle-tag">${exercise.muscles[0]}</span>
+          <span class="level-tag">${exercise.level || 'Débutant'}</span>
+        </div>
+        <h3>${exercise.name}</h3>
+        <p class="library-summary">${exercise.summary}</p>
+        <div class="ex-actions">
+          <button class="action-link" type="button" data-detail="${key}">${icon('info')} Technique</button>
+          <span class="library-muscles">${exercise.muscles.join(' · ')}</span>
+        </div>
+      </div>
+    </article>`;
+}
+
+function renderLibraryGrid() {
+  const grid = document.getElementById('libraryGrid');
+  if (!grid) return;
+  const query = state.libraryQuery.trim().toLowerCase();
+  const exercises = getLibraryExercises().filter((exercise) => {
+    const matchesGroup = state.libraryFilter === 'all' || exercise.group === state.libraryFilter;
+    const haystack = `${exercise.name} ${exercise.muscles.join(' ')}`.toLowerCase();
+    return matchesGroup && (!query || haystack.includes(query));
+  });
+
+  currentExerciseMap = new Map();
+  exercises.forEach((exercise) => {
+    currentExerciseMap.set(`library:${exercise.id}`, {
+      id: exercise.id,
+      dose: 'Libre',
+      rest: '—',
+      free: true,
+      blockTitle: 'Bibliothèque'
+    });
+  });
+
+  grid.innerHTML = exercises.map(renderLibraryCard).join('');
+  const empty = document.getElementById('libraryEmpty');
+  if (empty) empty.hidden = exercises.length > 0;
+  const resultCount = document.getElementById('libraryResultCount');
+  if (resultCount) resultCount.textContent = `${exercises.length} exercice${exercises.length === 1 ? '' : 's'}`;
+}
+
+function renderLibrary() {
+  const all = getLibraryExercises();
+  const total = all.length;
+  const counts = { all: total };
+  LIBRARY_GROUPS.filter((group) => group.id !== 'all').forEach((group) => {
+    counts[group.id] = all.filter((exercise) => exercise.group === group.id).length;
+  });
+
+  const totalNode = document.getElementById('libraryTotal');
+  const totalStatNode = document.getElementById('libraryTotalStat');
+  const countNode = document.getElementById('libraryCount');
+  if (totalNode) totalNode.textContent = total;
+  if (totalStatNode) totalStatNode.textContent = total;
+  if (countNode) countNode.textContent = total;
+
+  const filters = document.getElementById('libraryFilters');
+  if (filters) {
+    filters.innerHTML = LIBRARY_GROUPS.map(
+      (group) => `
+        <button class="filter-chip ${state.libraryFilter === group.id ? 'is-active' : ''}" type="button"
+          data-library-filter="${group.id}" aria-pressed="${state.libraryFilter === group.id}">
+          ${group.label}<span>${counts[group.id] || 0}</span>
+        </button>`
+    ).join('');
+  }
+
+  const search = document.getElementById('librarySearch');
+  if (search) search.value = state.libraryQuery;
+  renderLibraryGrid();
+}
+
 function renderAll() {
+  const libraryVisible = state.view === 'library';
+  document.getElementById('programView').hidden = libraryVisible;
+  document.getElementById('libraryView').hidden = !libraryVisible;
   renderTabs();
+  if (libraryVisible) {
+    renderLibrary();
+    return;
+  }
   renderHero();
   renderWeek();
   renderDay();
@@ -1236,11 +1665,21 @@ function renderAll() {
    -------------------------------------------------------------------------- */
 
 function setPlan(planId) {
-  if (!PLANS[planId] || planId === state.plan) return;
+  if (!PLANS[planId]) return;
+  const changedPlan = planId !== state.plan;
   state.plan = planId;
-  state.day = firstTrainingDay(planId);
+  if (changedPlan || state.view !== 'program') state.day = firstTrainingDay(planId);
+  state.view = 'program';
   saveState();
   renderAll();
+}
+
+function setView(view) {
+  if (view !== 'program' && view !== 'library') return;
+  state.view = view;
+  saveState();
+  renderAll();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function selectDay(index, scroll = false) {
@@ -1311,6 +1750,7 @@ function openExerciseDetail(key) {
   if (!meta) return;
   const exercise = EXERCISES[meta.id];
   const restSec = parseInt(meta.rest, 10) || 45;
+  const isFree = Boolean(meta.free);
   lastFocusedElement = document.activeElement;
   setModalContent(`
     <div class="detail-grid">
@@ -1330,13 +1770,13 @@ function openExerciseDetail(key) {
       <div class="detail-copy">
         <div class="ex-tags">
           <span class="muscle-tag">${exercise.muscles.join(' · ')}</span>
-          <span class="level-tag">Débutant</span>
+          <span class="level-tag">${exercise.level || 'Débutant'}</span>
         </div>
         <h2>${exercise.name}</h2>
         <p class="detail-summary">${exercise.summary}</p>
         <div class="detail-meta-grid">
           <div><span>Format</span><strong>${meta.dose}</strong></div>
-          <div><span>Repos</span><strong>${meta.rest}</strong></div>
+          <div><span>Repos</span><strong>${isFree ? 'Au choix' : meta.rest}</strong></div>
           <div><span>Matériel</span><strong>${exercise.setup}</strong></div>
         </div>
         <h3>Comment faire</h3>
@@ -1345,7 +1785,7 @@ function openExerciseDetail(key) {
           <div class="tip-card tip-card--warn"><span>${icon('info')} À éviter</span><p>${exercise.mistake}</p></div>
           <div class="tip-card tip-card--good"><span>${icon('spark')} Le conseil</span><p>${exercise.tip}</p></div>
         </div>
-        <button class="btn btn-primary detail-rest" type="button" data-rest="${restSec}">${icon('timer')} Lancer le repos (${meta.rest})</button>
+        ${isFree ? '' : `<button class="btn btn-primary detail-rest" type="button" data-rest="${restSec}">${icon('timer')} Lancer le repos (${meta.rest})</button>`}
       </div>
     </div>
   `);
@@ -1618,6 +2058,33 @@ function setupEvents() {
 
   document.getElementById('openGuideBtn').addEventListener('click', openGuide);
   document.getElementById('openGuideSide').addEventListener('click', openGuide);
+  document.getElementById('openLibraryBtn').addEventListener('click', () => setView('library'));
+  document.getElementById('openLibrarySide').addEventListener('click', () => setView('library'));
+
+  document.getElementById('libraryView').addEventListener('click', (event) => {
+    const backButton = event.target.closest('[data-back-program]');
+    if (backButton) {
+      setView('program');
+      return;
+    }
+    const filterButton = event.target.closest('[data-library-filter]');
+    if (filterButton) {
+      state.libraryFilter = filterButton.dataset.libraryFilter;
+      saveState();
+      renderLibrary();
+      return;
+    }
+    const detailButton = event.target.closest('[data-detail]');
+    if (detailButton) {
+      openExerciseDetail(detailButton.dataset.detail);
+    }
+  });
+
+  document.getElementById('librarySearch').addEventListener('input', (event) => {
+    state.libraryQuery = event.target.value;
+    saveState();
+    renderLibraryGrid();
+  });
 
   document.getElementById('exerciseModal').addEventListener('click', (event) => {
     if (event.target.closest('[data-close-modal]') || event.target.closest('.modal-backdrop')) {
@@ -1652,6 +2119,10 @@ function init() {
   safeLoadState();
   if (!PLANS[state.plan]) state.plan = '15';
   if (!Number.isInteger(state.day) || state.day < 0 || state.day > 6) state.day = 0;
+  if (state.view !== 'library' && state.view !== 'program') state.view = 'program';
+  if (!LIBRARY_GROUPS.some((group) => group.id === state.libraryFilter)) state.libraryFilter = 'all';
+  const libraryCount = document.getElementById('libraryCount');
+  if (libraryCount) libraryCount.textContent = Object.keys(EXERCISES).length;
   setupEvents();
   renderAll();
 }

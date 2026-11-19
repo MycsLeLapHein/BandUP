@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="BANDUP : trois programmes d'entraînement haut du corps aux bandes élastiques. 15, 30 ou 60 minutes, 4 jours par semaine, avec une démonstration GIF pour chaque exercice.">
+  <meta name="description" content="BANDUP : trois programmes d'entraînement haut du corps aux bandes élastiques et une bibliothèque de 38 exercices. 15, 30 ou 60 minutes, 4 jours par semaine, avec un GIF pour chaque mouvement.">
   <meta name="theme-color" content="#145B41">
   <meta name="color-scheme" content="light">
   <title>BANDUP — Ton haut du corps, 4 jours par semaine</title>
@@ -40,6 +40,12 @@
         </button>
       </nav>
 
+      <button class="guide-btn library-btn" type="button" id="openLibraryBtn" aria-label="Ouvrir la bibliothèque d’exercices" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg>
+        <span>Exercices</span>
+        <b class="library-count" id="libraryCount">38</b>
+      </button>
+
       <button class="guide-btn" type="button" id="openGuideBtn" aria-label="Guide des bandes">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
         <span>Guide bandes</span>
@@ -48,6 +54,7 @@
   </header>
 
   <main>
+    <div id="programView">
     <section class="hero">
       <div class="hero-copy">
         <div class="eyebrow" id="heroEyebrow">
@@ -151,11 +158,57 @@
             <p>Vérifie la bande et l’ancrage. Pas de déchirure, pas d’objet fragile. En cas de douleur, tu t’arrêtes.</p>
           </section>
 
+          <section class="side-card library-side">
+            <span class="side-kicker">Bibliothèque</span>
+            <h3>38 exercices à explorer</h3>
+            <p>Des variantes pour le dos, les épaules, les bras et le gainage, avec un GIF pour chaque mouvement.</p>
+            <button class="text-link" type="button" id="openLibrarySide">Ouvrir la bibliothèque <span aria-hidden="true">→</span></button>
+          </section>
+
           <button class="reset-btn" type="button" id="resetProgress">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg>
             Réinitialiser ma progression
           </button>
         </aside>
+      </div>
+    </section>
+    </div>
+
+    <section class="library-view" id="libraryView" hidden>
+      <div class="library-head">
+        <div class="library-heading">
+          <span class="section-kicker">Bibliothèque complète</span>
+          <h1><span id="libraryTotal">38</span> exercices. <em>Un GIF pour chacun.</em></h1>
+          <p>Pectoraux, dos, épaules, bras et gainage : explore toutes les variantes, filtre par muscle et ouvre la fiche technique de chaque mouvement.</p>
+          <button class="btn btn-ghost library-back" type="button" data-back-program>
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span>
+            Retour aux programmes
+          </button>
+        </div>
+        <div class="library-stats" aria-label="Chiffres de la bibliothèque">
+          <div><strong id="libraryTotalStat">38</strong><span>exercices</span></div>
+          <div><strong>5</strong><span>groupes</span></div>
+          <div><strong>100%</strong><span>GIF animés</span></div>
+        </div>
+      </div>
+
+      <div class="library-toolbar">
+        <div class="library-filters" id="libraryFilters" role="group" aria-label="Filtrer par groupe musculaire"></div>
+        <label class="library-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+          <input type="search" id="librarySearch" placeholder="Rechercher un exercice…" aria-label="Rechercher un exercice" autocomplete="off">
+        </label>
+      </div>
+
+      <div class="library-results">
+        <strong id="libraryResultCount">38 exercices</strong>
+        <span>Clique sur « Technique » pour voir le GIF en grand et les consignes.</span>
+      </div>
+
+      <div class="library-grid" id="libraryGrid"></div>
+      <div class="library-empty" id="libraryEmpty" hidden>
+        <strong>Aucun exercice trouvé.</strong>
+        <p>Essaie un autre groupe musculaire ou efface ta recherche.</p>
       </div>
     </section>
   </main>
