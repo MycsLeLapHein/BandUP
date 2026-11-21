@@ -10,6 +10,14 @@ Application web autonome pour débutant : trois programmes de musculation du hau
 
 > Si tu déplaces l’application, déplace le dossier complet : les GIFs sont stockés dans `assets/gifs`.
 
+## Installer sur smartphone (Chrome Android)
+
+1. Ouvre l’adresse GitHub Pages du projet dans **Chrome** : `https://mycslelaphein.github.io/BandUP/`
+2. Menu **⋮** → **Installer l’application** (ou **Ajouter à l’écran d’accueil**).
+3. BANDUP apparaît comme une vraie appli et fonctionne ensuite **hors ligne**.
+
+> Pour publier une mise à jour, change `VERSION` dans `sw.js` (ex. `bandup-v2`) afin que les téléphones rechargent les fichiers.
+
 ## Les programmes
 
 | Onglet | Rythme | Format | Jours d’entraînement |
