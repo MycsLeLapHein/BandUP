@@ -1,5 +1,5 @@
 /* Service worker BANDUP : cache hors ligne. Incrémente VERSION à chaque mise à jour. */
-const VERSION = "bandup-v2";
+const VERSION = "bandup-v3";
 const CORE = [
   "./",
   "./index.html",

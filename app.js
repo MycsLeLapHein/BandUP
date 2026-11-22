@@ -5,6 +5,30 @@
    Tout est local : aucune requête réseau, les GIFs sont dans /assets/gifs.
    -------------------------------------------------------------------------- */
 
+const MOTIVATIONS = [
+  'La régularité bat la motivation. Aujourd’hui, tu fais ta part.',
+  'Tu n’as pas besoin d’être prêt. Tu as besoin de commencer.',
+  'Quinze minutes valent toujours mieux que zéro.',
+  'Chaque série compte, même les jours où l’envie n’est pas là.',
+  'La personne que tu seras dans trois mois se construit maintenant.',
+  'Ne compare pas ton jour 1 au jour 100 de quelqu’un d’autre.',
+  'Un petit progrès répété devient une grande transformation.',
+  'Ton seul adversaire, c’est la personne que tu étais hier.',
+  'La discipline, c’est revenir même quand la motivation s’en va.',
+  'Tu n’as pas à tout donner. Tu as juste à ne pas lâcher.',
+  'Le meilleur moment pour t’entraîner, c’est maintenant.',
+  'Chaque répétition est un vote pour la personne que tu veux devenir.',
+  'Les résultats aiment les gens qui reviennent.',
+  'Commence là où tu es. Utilise ce que tu as. Fais ce que tu peux.',
+  'Une séance de plus, c’est une excuse de moins.',
+  'Sois fier de tes petites victoires : elles construisent les grandes.',
+  'Ton corps écoute tes habitudes, pas tes intentions.',
+  'Aujourd’hui, sois plus fort qu’hier. Même un peu.',
+  'Le repos fait partie du programme. La régularité fait la différence.',
+  'La constance transforme les efforts invisibles en résultats visibles.',
+  'Tu progresses aussi les jours où tu n’as pas l’impression de progresser.'
+];
+
 const BANDS = [
   {
     name: 'Jaune',
@@ -68,6 +92,68 @@ const ICONS = {
 
 function icon(name, cls = '') {
   return `<span class="icon ${cls}" aria-hidden="true">${ICONS[name] || ''}</span>`;
+}
+
+/* --------------------------------------------------------------------------
+   Phrase de motivation : une nouvelle phrase à chaque ouverture
+   -------------------------------------------------------------------------- */
+
+const MOTIVATION_STORAGE_KEY = 'bandup-motivation-last';
+const MOTIVATION_QUEUE_KEY = 'bandup-motivation-queue';
+let currentMotivationIndex = -1;
+let lastMotivationAt = 0;
+
+function shuffleIndexes(indexes) {
+  const shuffled = [...indexes];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const swap = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[swap]] = [shuffled[swap], shuffled[index]];
+  }
+  return shuffled;
+}
+
+function rotateMotivation() {
+  const phrase = document.getElementById('motivationPhrase');
+  if (!phrase || !MOTIVATIONS.length) return;
+
+  let storedIndex = -1;
+  let queue = [];
+  try {
+    const stored = Number(localStorage.getItem(MOTIVATION_STORAGE_KEY));
+    if (Number.isInteger(stored) && stored >= 0 && stored < MOTIVATIONS.length) storedIndex = stored;
+    const storedQueue = JSON.parse(localStorage.getItem(MOTIVATION_QUEUE_KEY) || '[]');
+    if (Array.isArray(storedQueue)) {
+      queue = storedQueue.filter((index, position) => (
+        Number.isInteger(index) &&
+        index >= 0 &&
+        index < MOTIVATIONS.length &&
+        storedQueue.indexOf(index) === position
+      ));
+    }
+  } catch (_) {
+    /* localStorage peut être indisponible, on garde au moins l'index en mémoire. */
+  }
+
+  const lastIndex = storedIndex >= 0 ? storedIndex : currentMotivationIndex;
+  queue = queue.filter((index) => index !== lastIndex);
+  if (!queue.length) {
+    queue = shuffleIndexes(MOTIVATIONS.map((_, index) => index).filter((index) => index !== lastIndex));
+  }
+
+  const nextIndex = queue.shift();
+  currentMotivationIndex = nextIndex;
+  phrase.textContent = MOTIVATIONS[nextIndex];
+  phrase.classList.remove('phrase-enter');
+  void phrase.offsetWidth;
+  phrase.classList.add('phrase-enter');
+  lastMotivationAt = Date.now();
+
+  try {
+    localStorage.setItem(MOTIVATION_STORAGE_KEY, String(nextIndex));
+    localStorage.setItem(MOTIVATION_QUEUE_KEY, JSON.stringify(queue));
+  } catch (_) {
+    /* silencieux */
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -2303,6 +2389,14 @@ function setupEvents() {
     if (event.key === 'Escape') closeModal();
   });
 
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && Date.now() - lastMotivationAt > 800) rotateMotivation();
+  });
+
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) rotateMotivation();
+  });
+
   document.getElementById('restToggle').addEventListener('click', toggleRestTimer);
   document.getElementById('restClose').addEventListener('click', closeRestTimer);
 
@@ -2320,6 +2414,7 @@ function init() {
   if (state.view !== 'library' && state.view !== 'program') state.view = 'program';
   if (!LIBRARY_GROUPS.some((group) => group.id === state.libraryFilter)) state.libraryFilter = 'all';
   ensureVariations();
+  rotateMotivation();
   const libraryCount = document.getElementById('libraryCount');
   if (libraryCount) libraryCount.textContent = Object.keys(EXERCISES).length;
   setupEvents();

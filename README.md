@@ -63,6 +63,7 @@ Les séances ne restent pas figées : à chaque nouvelle semaine, chaque emplace
 ## Fonctionnalités
 
 - **Un GIF animé par exercice**, avec le muscle ciblé et le matériel requis.
+- **21 phrases de motivation** : une nouvelle phrase s’affiche à chaque ouverture de l’application.
 - **Fiche technique** pour chaque mouvement : 3 consignes, erreur à éviter, conseil, bande recommandée.
 - **Bibliothèque filtrable** de 38 exercices avec recherche instantanée.
 - **Minuteur de repos** intégré (20 s, 45 s, 60 s ou 75 s selon l’exercice).
