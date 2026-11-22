@@ -1057,6 +1057,21 @@ svg {
   line-height: 1.6;
 }
 
+.session-head .session-variant-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 7px;
+  color: #7b8c80;
+  font-size: 9px;
+}
+
+.session-variant-copy .icon {
+  width: 11px;
+  height: 11px;
+  color: #7c55a6;
+}
+
 .session-equipment {
   display: flex;
   flex: 0 0 auto;
@@ -1079,6 +1094,33 @@ svg {
 }
 
 .session-equipment .icon {
+  width: 11px;
+  height: 11px;
+  color: var(--green);
+}
+
+.session-shuffle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+  padding: 6px 8px;
+  border: 1px solid #cfdcc4;
+  border-radius: 7px;
+  background: #f8fbe9;
+  color: var(--green);
+  font-size: 8.5px;
+  font-weight: 800;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.session-shuffle:hover {
+  border-color: #b7c9a7;
+  background: var(--lime-soft);
+}
+
+.session-shuffle .icon {
   width: 11px;
   height: 11px;
   color: var(--green);
@@ -1447,6 +1489,20 @@ svg {
 .level-tag {
   background: #f1f4ec;
   color: #829087;
+}
+
+.variant-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 6px;
+  border-radius: 5px;
+  background: #f1e9fb;
+  color: #7552a3;
+  font-size: 7.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .ex-body h3 {
@@ -2467,6 +2523,23 @@ svg {
   color: var(--muted);
   font-size: 11px;
   line-height: 1.6;
+}
+
+.detail-variant {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: -7px 0 14px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: #f5eefc;
+  color: #7752a6;
+  font-size: 8px;
+  line-height: 1.4;
+}
+
+.detail-variant strong {
+  font-weight: 800;
 }
 
 .detail-meta-grid {

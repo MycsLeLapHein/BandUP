@@ -2,6 +2,10 @@
 
 Application web autonome pour débutant : trois programmes de musculation du haut du corps et une bibliothèque de **38 exercices** illustrés, avec les cinq bandes élastiques en boucle du set (jaune, rouge, noire, violette, verte).
 
+## Version en ligne
+
+**https://mycslelaphein.github.io/BandUP/**
+
 ## Ouvrir l’application
 
 1. Garde **tout le dossier** ensemble (`index.html`, `styles.css`, `app.js` et `assets/gifs`).
@@ -47,6 +51,15 @@ Le bouton **Exercices** dans l’en-tête ouvre les **38 mouvements** de l’app
 
 Les nouveaux mouvements incluent notamment le tirage assis, la traction assistée, le tirage à genoux un bras, le curl au-dessus de la tête, les extensions de poignets et plusieurs variantes de gainage.
 
+## Variantes automatiques des programmes
+
+Les séances ne restent pas figées : à chaque nouvelle semaine, chaque emplacement du programme peut être remplacé par un autre exercice de la **même famille de mouvement** (tirage vertical, rowing, développé, curl, gainage…). Les séries, répétitions, temps de repos et la structure de la séance restent identiques.
+
+- La variation est **stable pendant la semaine** et sauvegardée dans le navigateur.
+- Le bouton **Mélanger** dans l’en-tête d’une séance propose immédiatement d’autres exercices cohérents.
+- Une étiquette **Variante** indique les mouvements qui ont été remplacés ; la fiche technique rappelle l’exercice d’origine.
+- Les variantes restent dans le même groupe musculaire et la bibliothèque complète reste accessible.
+
 ## Fonctionnalités
 
 - **Un GIF animé par exercice**, avec le muscle ciblé et le matériel requis.
@@ -72,8 +85,9 @@ Ce contenu est éducatif et ne remplace pas un avis médical.
 ```
 index.html          interface
 styles.css          mise en page responsive
-app.js              programmes, bibliothèque, interactions, minuteur
+app.js              programmes, bibliothèque, variantes, interactions, minuteur
 assets/gifs/        38 démonstrations animées
+.nojekyll           configuration GitHub Pages
 README.md
 ```
 

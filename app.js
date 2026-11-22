@@ -741,6 +741,50 @@ function getLibraryExercises() {
   }));
 }
 
+/* Familles de mouvements : on ne remplace un exercice que par un autre
+   mouvement qui travaille la même zone, avec la même logique (tirage,
+   poussée, curl, gainage...). Les exercices introuvables ne sont pas utilisés. */
+const VARIATION_POOLS = {
+  'chest-press': ['chest-press', 'chest-press-unilateral'],
+  'chest-press-unilateral': ['chest-press-unilateral', 'chest-press'],
+  pulldown: ['pulldown', 'pulldown-underhand', 'close-grip-pulldown', 'fixed-close-grip-pulldown', 'fixed-underhand-pulldown', 'kneeling-one-arm-pulldown'],
+  'pulldown-underhand': ['pulldown-underhand', 'pulldown', 'close-grip-pulldown', 'fixed-underhand-pulldown'],
+  'close-grip-pulldown': ['close-grip-pulldown', 'pulldown', 'fixed-close-grip-pulldown'],
+  'fixed-close-grip-pulldown': ['fixed-close-grip-pulldown', 'close-grip-pulldown', 'pulldown'],
+  'fixed-underhand-pulldown': ['fixed-underhand-pulldown', 'pulldown-underhand', 'pulldown'],
+  'kneeling-one-arm-pulldown': ['kneeling-one-arm-pulldown', 'pulldown', 'close-grip-pulldown'],
+  row: ['row', 'seated-row'],
+  'seated-row': ['seated-row', 'row'],
+  'rear-delt-row': ['rear-delt-row', 'reverse-fly'],
+  'reverse-fly': ['reverse-fly', 'rear-delt-row', 'y-raise'],
+  'shoulder-press': ['shoulder-press', 'overhead-press-twist'],
+  'overhead-press-twist': ['overhead-press-twist', 'shoulder-press'],
+  'front-raise': ['front-raise', 'lateral-raise'],
+  'lateral-raise': ['lateral-raise', 'front-raise', 'y-raise'],
+  'y-raise': ['y-raise', 'reverse-fly'],
+  shrug: ['shrug'],
+  'biceps-curl': ['biceps-curl', 'concentration-curl', 'overhead-biceps-curl'],
+  'concentration-curl': ['concentration-curl', 'biceps-curl', 'overhead-biceps-curl'],
+  'overhead-biceps-curl': ['overhead-biceps-curl', 'biceps-curl', 'concentration-curl'],
+  'triceps-extension': ['triceps-extension', 'triceps-pushup'],
+  'triceps-pushup': ['triceps-pushup', 'triceps-extension'],
+  'pallof-press': ['pallof-press', 'vertical-pallof'],
+  'vertical-pallof': ['vertical-pallof', 'pallof-press'],
+  'standing-crunch': ['standing-crunch', 'push-situp', 'seated-twist', 'standing-twisting-crunch', 'kneeling-twisting-crunch'],
+  'bicycle-crunch': ['bicycle-crunch', 'alternating-vup', 'seated-twist', 'standing-twisting-crunch'],
+  'seated-twist': ['seated-twist', 'standing-twisting-crunch', 'kneeling-twisting-crunch'],
+  'standing-twisting-crunch': ['standing-twisting-crunch', 'seated-twist', 'kneeling-twisting-crunch'],
+  'kneeling-twisting-crunch': ['kneeling-twisting-crunch', 'seated-twist', 'standing-twisting-crunch'],
+  'alternating-vup': ['alternating-vup', 'bicycle-crunch'],
+  'push-situp': ['push-situp', 'standing-crunch'],
+  'jack-knife-situp': ['jack-knife-situp', 'v-up'],
+  'v-up': ['v-up', 'jack-knife-situp'],
+  'lying-leg-raise': ['lying-leg-raise'],
+  'assisted-pullup': ['assisted-pullup'],
+  'wrist-curl': ['wrist-curl', 'reverse-wrist-curl'],
+  'reverse-wrist-curl': ['reverse-wrist-curl', 'wrist-curl']
+};
+
 /* --------------------------------------------------------------------------
    Échauffements et retours au calme
    -------------------------------------------------------------------------- */
@@ -1242,7 +1286,16 @@ const PLANS = {
    -------------------------------------------------------------------------- */
 
 const STORAGE_KEY = 'bandup-progress-v1';
-const state = { plan: '15', day: 0, done: {}, view: 'program', libraryFilter: 'all', libraryQuery: '' };
+const state = {
+  plan: '15',
+  day: 0,
+  done: {},
+  view: 'program',
+  libraryFilter: 'all',
+  libraryQuery: '',
+  variationWeek: '',
+  variationMap: {}
+};
 let currentExerciseMap = new Map();
 let restInterval = null;
 let restTotal = 60;
@@ -1264,6 +1317,10 @@ function safeLoadState() {
       state.libraryFilter = saved.libraryFilter;
     }
     if (typeof saved.libraryQuery === 'string') state.libraryQuery = saved.libraryQuery;
+    if (saved.variationWeek === currentWeekKey() && saved.variationMap && typeof saved.variationMap === 'object') {
+      state.variationWeek = saved.variationWeek;
+      state.variationMap = saved.variationMap;
+    }
   } catch (_) {
     /* localStorage peut être indisponible en file://, l'app reste utilisable. */
   }
@@ -1277,26 +1334,142 @@ function saveState() {
   }
 }
 
-function exerciseKey(planId, dayIndex, blockIndex, exIndex) {
+/* --------------------------------------------------------------------------
+   Variantes automatiques
+   -------------------------------------------------------------------------- */
+
+function currentWeekKey(date = new Date()) {
+  const utc = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const day = utc.getUTCDay() || 7;
+  utc.setUTCDate(utc.getUTCDate() + 4 - day);
+  const yearStart = new Date(Date.UTC(utc.getUTCFullYear(), 0, 1));
+  const week = Math.ceil((((utc - yearStart) / 86400000) + 1) / 7);
+  return `${utc.getUTCFullYear()}-W${String(week).padStart(2, '0')}`;
+}
+
+function hashString(value) {
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) {
+    hash ^= value.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function seededRandom(seed) {
+  let value = seed >>> 0;
+  return function random() {
+    value += 0x6d2b79f5;
+    let result = value;
+    result = Math.imul(result ^ (result >>> 15), result | 1);
+    result ^= result + Math.imul(result ^ (result >>> 7), result | 61);
+    return ((result ^ (result >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function chooseVariantId(originalId, seed, avoidId = '') {
+  const pool = (VARIATION_POOLS[originalId] || [originalId]).filter((id) => EXERCISES[id]);
+  if (pool.length <= 1) return originalId;
+  let candidates = pool.filter((id) => id !== originalId && id !== avoidId);
+  if (!candidates.length && avoidId) candidates = pool.filter((id) => id !== avoidId);
+  if (!candidates.length) candidates = pool.filter((id) => id !== originalId);
+  if (!candidates.length) return originalId;
+  const random = seededRandom(hashString(seed));
+  return candidates[Math.floor(random() * candidates.length)];
+}
+
+function variationKey(planId, dayIndex, blockIndex, exIndex) {
   return `${planId}:${dayIndex}:${blockIndex}:${exIndex}`;
 }
 
-function flattenSession(session) {
+function generateVariationsForSession(planId, dayIndex, seedBase, avoidCurrent = false) {
+  const plan = PLANS[planId];
+  const day = plan && plan.week[dayIndex];
+  if (!day || day.type !== 'train') return;
+  const session = SESSIONS[day.session];
+  session.blocks.forEach((block, blockIndex) => {
+    block.exercises.forEach((exercise, exIndex) => {
+      const key = variationKey(planId, dayIndex, blockIndex, exIndex);
+      const current = state.variationMap[key] || exercise.id;
+      state.variationMap[key] = chooseVariantId(
+        exercise.id,
+        `${seedBase}:${planId}:${dayIndex}:${blockIndex}:${exIndex}`,
+        avoidCurrent ? current : ''
+      );
+    });
+  });
+}
+
+function generateAllVariations(seedBase) {
+  state.variationMap = {};
+  Object.keys(PLANS).forEach((planId) => {
+    PLANS[planId].week.forEach((day, dayIndex) => {
+      if (day.type === 'train') generateVariationsForSession(planId, dayIndex, seedBase);
+    });
+  });
+}
+
+function ensureVariations() {
+  const week = currentWeekKey();
+  let changed = false;
+  if (week !== state.variationWeek) {
+    state.variationWeek = week;
+    generateAllVariations(`${week}:${Math.random().toString(36).slice(2)}`);
+    changed = true;
+  }
+  Object.keys(PLANS).forEach((planId) => {
+    PLANS[planId].week.forEach((day, dayIndex) => {
+      if (day.type !== 'train') return;
+      const session = SESSIONS[day.session];
+      session.blocks.forEach((block, blockIndex) => {
+        block.exercises.forEach((exercise, exIndex) => {
+          const key = variationKey(planId, dayIndex, blockIndex, exIndex);
+          if (!state.variationMap[key]) {
+            state.variationMap[key] = chooseVariantId(
+              exercise.id,
+              `${state.variationWeek}:${planId}:${dayIndex}:${blockIndex}:${exIndex}`
+            );
+            changed = true;
+          }
+        });
+      });
+    });
+  });
+  if (changed) saveState();
+}
+
+function getVariantId(planId, dayIndex, blockIndex, exIndex, originalId) {
+  return state.variationMap[variationKey(planId, dayIndex, blockIndex, exIndex)] || originalId;
+}
+
+function flattenSession(planId, dayIndex, session) {
   return session.blocks.flatMap((block, blockIndex) =>
-    block.exercises.map((exercise, exIndex) => ({ ...exercise, blockIndex, exIndex, blockTitle: block.title }))
+    block.exercises.map((exercise, exIndex) => {
+      const id = getVariantId(planId, dayIndex, blockIndex, exIndex, exercise.id);
+      return {
+        ...exercise,
+        originalId: exercise.id,
+        id,
+        blockIndex,
+        exIndex,
+        blockTitle: block.title
+      };
+    })
   );
+}
+
+function exerciseKey(planId, dayIndex, blockIndex, exIndex, variantId = '') {
+  return `${planId}:${dayIndex}:${blockIndex}:${exIndex}${variantId ? `:${variantId}` : ''}`;
 }
 
 function getDayProgress(planId, dayIndex) {
   const plan = PLANS[planId];
   const day = plan && plan.week[dayIndex];
   if (!day || day.type !== 'train') return { done: 0, total: 0 };
-  const exercises = flattenSession(SESSIONS[day.session]);
-  const done = exercises.filter((_, index) => {
-    const blockIndex = exercises[index].blockIndex;
-    const exIndex = exercises[index].exIndex;
-    return Boolean(state.done[exerciseKey(planId, dayIndex, blockIndex, exIndex)]);
-  }).length;
+  const exercises = flattenSession(planId, dayIndex, SESSIONS[day.session]);
+  const done = exercises.filter((exercise) => Boolean(
+    state.done[exerciseKey(planId, dayIndex, exercise.blockIndex, exercise.exIndex, exercise.id)]
+  )).length;
   return { done, total: exercises.length };
 }
 
@@ -1409,10 +1582,11 @@ function renderWarmup(warmup, type) {
 }
 
 function renderExerciseCard(exercise, blockIndex, exIndex) {
-  const data = EXERCISES[exercise.id];
-  const key = exerciseKey(state.plan, state.day, blockIndex, exIndex);
+  const data = EXERCISES[exercise.id] || EXERCISES[exercise.originalId];
+  const key = exerciseKey(state.plan, state.day, blockIndex, exIndex, exercise.id);
   const checked = Boolean(state.done[key]);
   const restSeconds = parseInt(exercise.rest, 10) || 45;
+  const isVariant = exercise.originalId && exercise.originalId !== exercise.id;
   return `
     <article class="exercise-card ${checked ? 'is-done' : ''}" data-ex-key="${key}">
       <div class="ex-media">
@@ -1424,6 +1598,7 @@ function renderExerciseCard(exercise, blockIndex, exIndex) {
         <div class="ex-tags">
           <span class="muscle-tag">${data.muscles[0]}</span>
           <span class="level-tag">${data.level || 'Débutant'}</span>
+          ${isVariant ? `<span class="variant-tag" title="Variante de ${EXERCISES[exercise.originalId].name}">Variante</span>` : ''}
         </div>
         <h3>${data.name}</h3>
         <p class="ex-meta"><strong>${exercise.dose}</strong><span class="meta-dot">·</span><span>repos ${exercise.rest}</span></p>
@@ -1443,15 +1618,17 @@ function renderExerciseCard(exercise, blockIndex, exIndex) {
 
 function renderSession(day) {
   const session = SESSIONS[day.session];
-  const allExercises = flattenSession(session);
+  const allExercises = flattenSession(state.plan, state.day, session);
   const total = allExercises.length;
-  const done = allExercises.filter((exercise) => state.done[exerciseKey(state.plan, state.day, exercise.blockIndex, exercise.exIndex)]).length;
+  const done = allExercises.filter((exercise) => state.done[exerciseKey(state.plan, state.day, exercise.blockIndex, exercise.exIndex, exercise.id)]).length;
+  const resolvedByPosition = new Map(allExercises.map((exercise) => [`${exercise.blockIndex}:${exercise.exIndex}`, exercise]));
 
   currentExerciseMap = new Map();
   session.blocks.forEach((block, blockIndex) => {
     block.exercises.forEach((exercise, exIndex) => {
-      currentExerciseMap.set(exerciseKey(state.plan, state.day, blockIndex, exIndex), {
-        ...exercise,
+      const resolved = resolvedByPosition.get(`${blockIndex}:${exIndex}`) || { ...exercise, originalId: exercise.id };
+      currentExerciseMap.set(exerciseKey(state.plan, state.day, blockIndex, exIndex, resolved.id), {
+        ...resolved,
         blockTitle: block.title
       });
     });
@@ -1469,7 +1646,7 @@ function renderSession(day) {
           <span class="block-badge">${block.badge}</span>
         </div>
         <div class="exercise-grid">
-          ${block.exercises.map((exercise, exIndex) => renderExerciseCard(exercise, blockIndex, exIndex)).join('')}
+          ${block.exercises.map((exercise, exIndex) => renderExerciseCard(resolvedByPosition.get(`${blockIndex}:${exIndex}`) || exercise, blockIndex, exIndex)).join('')}
         </div>
       </section>`
     )
@@ -1482,10 +1659,14 @@ function renderSession(day) {
           <div class="session-kicker">${day.day} · ${day.duration} <span class="kicker-dot"></span> ${session.kicker}</div>
           <h2>${session.title}<span class="heading-dot" style="--dot:${day.accent}"></span></h2>
           <p>${session.blurb}</p>
+          <p class="session-variant-copy">${icon('refresh')} Variantes automatiques chaque semaine, dans le même groupe musculaire.</p>
         </div>
         <div class="session-equipment">
           <span>${icon('target')} Bandes élastiques</span>
           <span>${icon('timer')} ${day.duration}</span>
+          <button class="session-shuffle" type="button" data-shuffle-session title="Remplacer les exercices par d’autres mouvements du même groupe musculaire">
+            ${icon('refresh')} Mélanger
+          </button>
         </div>
       </div>
 
@@ -1682,6 +1863,16 @@ function setView(view) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function shuffleCurrentSession() {
+  const day = PLANS[state.plan].week[state.day];
+  if (!day || day.type !== 'train') return;
+  const seed = `${state.variationWeek}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
+  generateVariationsForSession(state.plan, state.day, seed, true);
+  saveState();
+  renderWeek();
+  renderSession(day);
+}
+
 function selectDay(index, scroll = false) {
   if (index < 0 || index > 6) return;
   state.day = index;
@@ -1749,6 +1940,7 @@ function openExerciseDetail(key) {
   const meta = findExerciseMeta(key);
   if (!meta) return;
   const exercise = EXERCISES[meta.id];
+  const originalExercise = meta.originalId && meta.originalId !== meta.id ? EXERCISES[meta.originalId] : null;
   const restSec = parseInt(meta.rest, 10) || 45;
   const isFree = Boolean(meta.free);
   lastFocusedElement = document.activeElement;
@@ -1773,6 +1965,7 @@ function openExerciseDetail(key) {
           <span class="level-tag">${exercise.level || 'Débutant'}</span>
         </div>
         <h2>${exercise.name}</h2>
+        ${originalExercise ? `<p class="detail-variant">Variante de <strong>${originalExercise.name}</strong> — même zone musculaire.</p>` : ''}
         <p class="detail-summary">${exercise.summary}</p>
         <div class="detail-meta-grid">
           <div><span>Format</span><strong>${meta.dose}</strong></div>
@@ -2041,6 +2234,11 @@ function setupEvents() {
       return;
     }
 
+    if (event.target.closest('[data-shuffle-session]')) {
+      shuffleCurrentSession();
+      return;
+    }
+
     if (event.target.closest('#checkAll')) {
       toggleAllExercises();
     }
@@ -2121,6 +2319,7 @@ function init() {
   if (!Number.isInteger(state.day) || state.day < 0 || state.day > 6) state.day = 0;
   if (state.view !== 'library' && state.view !== 'program') state.view = 'program';
   if (!LIBRARY_GROUPS.some((group) => group.id === state.libraryFilter)) state.libraryFilter = 'all';
+  ensureVariations();
   const libraryCount = document.getElementById('libraryCount');
   if (libraryCount) libraryCount.textContent = Object.keys(EXERCISES).length;
   setupEvents();
