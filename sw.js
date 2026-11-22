@@ -1,10 +1,10 @@
 /* Service worker BANDUP : cache hors ligne. Incrémente VERSION à chaque mise à jour. */
-const VERSION = "bandup-v3";
+const VERSION = "bandup-v4";
 const CORE = [
   "./",
   "./index.html",
-  "./styles.css",
-  "./app.js",
+  "./styles.css?v=4",
+  "./app.js?v=4",
   "./manifest.webmanifest",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",

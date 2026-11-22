@@ -13,7 +13,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="BANDUP">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <a class="skip-link" href="#session">Aller à la séance</a>
@@ -60,9 +60,10 @@
 
   <main>
     <div class="motivation-bar">
-      <span class="motivation-mark" aria-hidden="true">“</span>
-      <p id="motivationPhrase" aria-live="polite">La régularité bat la motivation. Aujourd’hui, tu fais ta part.</p>
-      <span class="motivation-label">Le mot du jour</span>
+      <div class="motivation-inner">
+        <span class="motivation-label">Le mot du jour</span>
+        <p id="motivationPhrase" aria-live="polite">La régularité bat la motivation. Aujourd’hui, tu fais ta part.</p>
+      </div>
     </div>
 
     <div id="programView">
@@ -264,7 +265,7 @@
     <div class="noscript">Cette application a besoin de JavaScript pour afficher les programmes et les GIFs.</div>
   </noscript>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=4"></script>
   <script>
     if ("serviceWorker" in navigator && location.protocol !== "file:") {
       window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
